@@ -9,7 +9,7 @@ try {
     Start-GlicLog $LogFile 'Export-Telemetry starting'
     Get-GlicTelemetry | Export-Csv $ReportFile -NoTypeInformation -Force
     $count = (Import-Csv $ReportFile | Measure-Object).Count
-    Start-GlicLog $LogFile "Completed - $count rows"
+    Start-GlicLog $LogFile "Completed $([char]0x2014) $count rows"
     '' | Add-Content -LiteralPath $LogFile
 }
 catch {
