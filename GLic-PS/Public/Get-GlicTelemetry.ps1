@@ -9,7 +9,8 @@ function Get-GlicTelemetry {
         [string]$ServiceAccountPath
     )
 
-    $ctx = Get-GlicContext -ConfigPath $Config -ServiceAccountPath $ServiceAccountPath
+    $ctx        = Get-GlicContext -ConfigPath $Config -ServiceAccountPath $ServiceAccountPath
+    $reportDate = (Get-Date).ToString('yyyy-MM-dd')
 
     # Step 1: fetch telemetry into dictionary keyed by deviceId
     $telemetry = @{}
@@ -31,6 +32,7 @@ function Get-GlicTelemetry {
         $td  = if ($_.deviceId) { $telemetry[$_.deviceId] } else { $null }
         $ous = if ($td) { $td.osUpdateStatus } else { $null }
         [PSCustomObject]@{
+            ReportDate            = $reportDate
             CustomerId            = $ctx.CustomerId
             DeviceId              = if ($_.deviceId)      { $_.deviceId }      else { '' }
             SerialNumber          = if ($_.serialNumber)  { $_.serialNumber }  else { '' }

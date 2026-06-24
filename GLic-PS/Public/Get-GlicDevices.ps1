@@ -16,8 +16,8 @@ function Get-GlicDevices {
 
     Invoke-GlicPagedRequest -Uri $uri -Headers $ctx.Headers -Query $query -ItemsProperty 'chromeosdevices' |
     ForEach-Object {
-        $lastSync    = if ($_.lastSyncRaw)            { [DateTimeOffset]::Parse($_.lastSyncRaw) }            else { $null }
-        $enrollment  = if ($_.lastEnrollmentTimeRaw)  { [DateTimeOffset]::Parse($_.lastEnrollmentTimeRaw) }  else { $null }
+        $lastSync    = if ($_.lastSync)            { [DateTimeOffset]::Parse($_.lastSync) }            else { $null }
+        $enrollment  = if ($_.lastEnrollmentTime)  { [DateTimeOffset]::Parse($_.lastEnrollmentTime) }  else { $null }
         [PSCustomObject]@{
             ReportDate         = $reportDate
             CustomerId         = $ctx.CustomerId

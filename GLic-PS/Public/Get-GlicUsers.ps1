@@ -26,8 +26,8 @@ function Get-GlicUsers {
         $managerEmail = ($_.relations | Where-Object { $_.type -eq 'manager' } | Select-Object -First 1).value
         $employeeId   = ($_.externalIds | Where-Object { $_.type -eq 'organization' } | Select-Object -First 1).value
         $aliases      = ($_.aliases -join ';')
-        $creation     = if ($_.creationTimeRaw)  { [DateTimeOffset]::Parse($_.creationTimeRaw) }  else { $null }
-        $lastLogin    = if ($_.lastLoginTimeRaw) { [DateTimeOffset]::Parse($_.lastLoginTimeRaw) } else { $null }
+        $creation     = if ($_.creationTime)  { [DateTimeOffset]::Parse($_.creationTime) }  else { $null }
+        $lastLogin    = if ($_.lastLoginTime) { [DateTimeOffset]::Parse($_.lastLoginTime) } else { $null }
 
         [PSCustomObject]@{
             ReportDate       = $reportDate

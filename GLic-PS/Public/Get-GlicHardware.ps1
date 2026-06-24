@@ -36,13 +36,13 @@ function Get-GlicHardware {
         $bat = if ($td) { $td.batteryInfo | Select-Object -First 1 } else { $null }
         $sto = if ($td) { $td.storageInfo } else { $null }
         $gpu = if ($td -and $td.graphicsInfo -and $td.graphicsInfo.adapterInfo) { $td.graphicsInfo.adapterInfo | Select-Object -First 1 } else { $null }
-        $ramGb = if ($mem -and $mem.totalRamBytes) { [int]([long]($mem.totalRamBytes) / 1GB) } else { $null }
-        $storageAvailGb = if ($sto -and $sto.availableDiskBytes) { [int]([long]($sto.availableDiskBytes[0]) / 1GB) } else { $null }
-        $storageTotalGb = if ($sto -and $sto.totalStorageBytes)  { [int]([long]($sto.totalStorageBytes[0])  / 1GB) } else { $null }
-        $batDesign  = if ($bat -and $bat.designCapacity)      { [int]$bat.designCapacity }      else { $null }
-        $batFull    = if ($bat -and $bat.fullChargeCapacity)   { [int]$bat.fullChargeCapacity }  else { $null }
-        $lastSync   = if ($_.lastSyncRaw)            { [DateTimeOffset]::Parse($_.lastSyncRaw) } else { $null }
-        $enrollment = if ($_.lastEnrollmentTimeRaw)  { [DateTimeOffset]::Parse($_.lastEnrollmentTimeRaw) } else { $null }
+        $ramGb = if ($mem -and $mem.totalRamBytes) { [int]([long]($mem.totalRamBytes) / 1GB) } else { 0 }
+        $storageAvailGb = if ($sto -and $sto.availableDiskBytes) { [int]([long]($sto.availableDiskBytes[0]) / 1GB) } else { 0 }
+        $storageTotalGb = if ($sto -and $sto.totalStorageBytes)  { [int]([long]($sto.totalStorageBytes[0])  / 1GB) } else { 0 }
+        $batDesign  = if ($bat -and $bat.designCapacity)      { [int]$bat.designCapacity }      else { 0 }
+        $batFull    = if ($bat -and $bat.fullChargeCapacity)   { [int]$bat.fullChargeCapacity }  else { 0 }
+        $lastSync   = if ($_.lastSync)            { [DateTimeOffset]::Parse($_.lastSync) } else { $null }
+        $enrollment = if ($_.lastEnrollmentTime)  { [DateTimeOffset]::Parse($_.lastEnrollmentTime) } else { $null }
         [PSCustomObject]@{
             ReportDate           = (Get-Date).ToString('yyyy-MM-dd')
             CustomerId           = $ctx.CustomerId

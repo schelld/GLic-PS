@@ -17,8 +17,8 @@ Describe 'Get-GlicDevices' {
                 annotatedUser       = 'user@example.com'
                 recentUsers         = @([PSCustomObject]@{ email = 'user@example.com' })
                 annotatedLocation   = 'Building A'
-                lastSyncRaw         = '2026-01-15T10:00:00Z'
-                lastEnrollmentTimeRaw = '2025-06-01T08:00:00Z'
+                lastSync              = '2026-01-15T10:00:00Z'
+                lastEnrollmentTime    = '2025-06-01T08:00:00Z'
                 osVersion           = '130.0.0.0'
                 macAddress          = 'AA:BB:CC:DD:EE:FF'
                 ethernetMacAddress  = $null

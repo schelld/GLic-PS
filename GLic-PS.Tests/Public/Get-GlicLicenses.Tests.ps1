@@ -19,7 +19,7 @@ Describe 'Get-GlicLicenses' {
             $script:LicCallCount++
             if ($script:LicCallCount -eq 1) {
                 # users call
-                [PSCustomObject]@{ primaryEmail='jane@example.com'; name=[PSCustomObject]@{fullName='Jane Doe';givenName='Jane';familyName='Doe'}; orgUnitPath='/Eng'; isAdmin=$false; suspended=$false; lastLoginTimeRaw='2026-06-01T00:00:00Z' }
+                [PSCustomObject]@{ primaryEmail='jane@example.com'; name=[PSCustomObject]@{fullName='Jane Doe';givenName='Jane';familyName='Doe'}; orgUnitPath='/Eng'; isAdmin=$false; suspended=$false; lastLoginTime='2026-06-01T00:00:00Z' }
             } else {
                 # license assignment call
                 [PSCustomObject]@{ userId = 'jane@example.com'; productId = 'Google-Apps'; skuId = '1010020026' }

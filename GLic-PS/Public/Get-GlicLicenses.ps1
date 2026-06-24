@@ -40,7 +40,7 @@ function Get-GlicLicenses {
 
         foreach ($a in $assignments) {
             $user      = if ($a.userId) { $userMap[$a.userId] } else { $null }
-            $lastLogin = if ($user -and $user.lastLoginTimeRaw) { [DateTimeOffset]::Parse($user.lastLoginTimeRaw) } else { $null }
+            $lastLogin = if ($user -and $user.lastLoginTime) { [DateTimeOffset]::Parse($user.lastLoginTime) } else { $null }
             [PSCustomObject]@{
                 ReportDate       = $reportDate
                 CustomerId       = $ctx.CustomerId

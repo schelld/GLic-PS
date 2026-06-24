@@ -10,8 +10,8 @@ Describe 'Get-GlicUsers' {
         $script:FakeUser = [PSCustomObject]@{
             primaryEmail    = 'jane@example.com'
             name            = [PSCustomObject]@{ fullName = 'Jane Doe'; givenName = 'Jane'; familyName = 'Doe' }
-            creationTimeRaw = '2024-01-01T00:00:00Z'
-            lastLoginTimeRaw = '2026-06-01T00:00:00Z'
+            creationTime    = '2024-01-01T00:00:00Z'
+            lastLoginTime    = '2026-06-01T00:00:00Z'
             isEnrolledIn2Sv = $true
             isEnforcedIn2Sv = $false
             recoveryEmail   = 'jane.recovery@example.com'
@@ -46,8 +46,8 @@ Describe 'Get-GlicUsers' {
         $suspended = [PSCustomObject]@{
             primaryEmail    = 'bob@example.com'
             name            = [PSCustomObject]@{ fullName = 'Bob Smith'; givenName = 'Bob'; familyName = 'Smith' }
-            creationTimeRaw = '2024-01-01T00:00:00Z'
-            lastLoginTimeRaw = '2026-06-01T00:00:00Z'
+            creationTime    = '2024-01-01T00:00:00Z'
+            lastLoginTime    = '2026-06-01T00:00:00Z'
             isEnrolledIn2Sv = $true
             isEnforcedIn2Sv = $false
             recoveryEmail   = 'bob.recovery@example.com'
