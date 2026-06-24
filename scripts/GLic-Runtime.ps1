@@ -118,7 +118,8 @@ function Get-GlicAccessToken {
     $response = Invoke-RestMethod -Method Post `
         -Uri 'https://oauth2.googleapis.com/token' `
         -ContentType 'application/x-www-form-urlencoded' `
-        -Body $body
+        -Body $body `
+        -ErrorAction Stop
 
     $script:_glicToken       = $response.access_token
     $script:_glicTokenExpiry = (Get-Date).AddSeconds($response.expires_in - 120)
