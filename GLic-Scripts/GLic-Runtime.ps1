@@ -190,7 +190,7 @@ function Get-GlicSkuCatalog {
         [PSCustomObject]@{ ProductId='Google-Apps'; ProductName='Google Workspace (Legacy)';           SkuId='Google-Apps-Lite';         SkuName='Essentials Starter';           Active=$true }
         [PSCustomObject]@{ ProductId='Google-Apps'; ProductName='Google Workspace Enterprise (Legacy)';SkuId='1010020020';               SkuName='Enterprise Plus';              Active=$true }
         [PSCustomObject]@{ ProductId='Google-Apps'; ProductName='Google Workspace Business Plus';      SkuId='1010020025';               SkuName='Business Plus';                Active=$true }
-        [PSCustomObject]@{ ProductId='Google-Apps'; ProductName='Google Workspace Business Starter';   SkuId='1010020026';               SkuName='Business Starter';             Active=$true }
+        [PSCustomObject]@{ ProductId='Google-Apps'; ProductName='Google Workspace Enterprise Standard'; SkuId='1010020026';               SkuName='Google Workspace Enterprise Standard'; Active=$true }
         [PSCustomObject]@{ ProductId='Google-Apps'; ProductName='Google Workspace Business Standard';  SkuId='1010020028';               SkuName='Business Standard';            Active=$true }
         [PSCustomObject]@{ ProductId='Google-Apps'; ProductName='Google Workspace Business Plus';      SkuId='1010020030';               SkuName='Business Plus';                Active=$true }
         [PSCustomObject]@{ ProductId='101001';      ProductName='Cloud Identity';                      SkuId='1010010001';               SkuName='Cloud Identity Free';          Active=$true }
@@ -506,7 +506,7 @@ function Get-GlicManagedBrowsers {
     if ($filter) { $query['filter'] = $filter }
     $results = @(Invoke-GlicPagedRequest -Uri $uri -Headers $ctx.Headers -Query $query -ItemsProperty 'customerProfiles')
     if ($filter -and $results.Count -eq 0) {
-        Write-Warning 'Org unit filter returned no results — retrying without filter'
+        Write-Warning "Org unit filter returned no results $([char]0x2014) retrying without filter"
         $results = @(Invoke-GlicPagedRequest -Uri $uri -Headers $ctx.Headers -Query @{ pageSize = 100 } -ItemsProperty 'customerProfiles')
     }
     $results | ForEach-Object {
