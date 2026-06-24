@@ -36,6 +36,7 @@ GLic-PS exports Google Workspace license assignments, Chromebook inventory, hard
 - [Cmdlet Reference](#cmdlet-reference)
 - [Output Field Reference](#output-field-reference)
 - [Repository Structure](#repository-structure)
+- [Related Projects](#related-projects)
 - [License](#license)
 
 ---
@@ -669,6 +670,25 @@ scripts/
 assets/
 └── icon.png
 ```
+
+---
+
+## Related Projects
+
+**[GLic](https://github.com/schelld/Glic)** is the compiled .NET sibling of this project. It surfaces the same Google Workspace data as typed `PSObject`s through a standard PowerShell module (`Import-Module GLic`) rather than CSV runner scripts.
+
+| | GLic-PS | GLic |
+|---|---|---|
+| **Runtime** | Windows PowerShell 5.1, no build | .NET 4.7.2 module, `dotnet build` required |
+| **Output** | Timestamped CSVs in `reports\` | Pipeline objects (`XxxRow` records) |
+| **Auth setup** | Edit `glic.json` manually | `Connect-Glic` wizard; DPAPI-encrypted credential store |
+| **Best for** | Unattended ITAM collection, Task Scheduler, RMM | Interactive scripting, pipeline composition, automation tooling |
+
+Use **GLic-PS** when you want a drop-in folder with no dependencies — copy, configure, schedule, done.
+
+Use **GLic** when you want to compose results with the PowerShell pipeline (`Get-GlicHardware | Where-Object RamGb -lt 4 | Export-Csv low_ram.csv`), build automation tooling on top of typed objects, or need the compiled module's cancellation and async throughput for large fleets.
+
+Both projects share the same API surface, DWD auth model, and SKU catalog — `glic.json` and `service-account.json` from one work with the other.
 
 ---
 
