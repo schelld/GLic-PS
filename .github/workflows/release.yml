@@ -1,0 +1,46 @@
+name: Create GLic-PS Release
+
+on:
+  push:
+    tags:
+      - 'v*' # Triggers when you push a tag like v1.0.0
+  workflow_dispatch: # Allows you to manually click "Run workflow" in the Actions tab
+
+permissions:
+  contents: write # Grants permission to create the release and upload the ZIP
+
+jobs:
+  deploy:
+    runs-on: windows-latest
+    steps:
+      # Step 1: Pull your code into the runner
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step 2: Zip the contents of the scripts folder into GLic-PS.zip
+      - name: Zip scripts folder
+        shell: powershell
+        run: |
+          Compress-Archive -Path .\scripts\* -DestinationPath .\GLic-PS.zip
+
+      # Step 3: Create the GitHub Release and attach the ZIP
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: GLic-PS.zip
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          body: |
+            ### GLic-PS Automated Deployment Package
+            Automated release of PowerShell scripts for version ${{ github.ref_name }}.
+            
+            **IT Admin Instructions:**
+            1. Download `GLic-PS.zip` below.
+            2. Unblock the ZIP file before extracting:
+               ```powershell
+               Unblock-File .\GLic-PS.zip
+               ```
+            3. Extract and execute.
+          draft: false
+          prerelease: false
+          
