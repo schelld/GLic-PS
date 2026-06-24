@@ -81,8 +81,9 @@ function Get-GlicAccessToken {
     $iat = [DateTimeOffset]::UtcNow.ToUnixTimeSeconds()
     $exp = $iat + 3600
 
+    $header    = [ordered]@{ alg = 'RS256'; typ = 'JWT'; kid = $ServiceAccount.private_key_id }
     $headerB64 = [Convert]::ToBase64String(
-        [Text.Encoding]::UTF8.GetBytes('{"alg":"RS256","typ":"JWT"}')
+        [Text.Encoding]::UTF8.GetBytes(($header | ConvertTo-Json -Compress))
     ) -replace '\+','-' -replace '/','_' -replace '='
 
     $payload = [ordered]@{
