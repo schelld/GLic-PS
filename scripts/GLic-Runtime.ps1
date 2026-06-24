@@ -1,3 +1,5 @@
+# Copyright (c) 2026 D. Schell <schelld@live.com>
+# https://github.com/schelld/GLIC-ps
 # GLic-Runtime.ps1 — dot-source this file in runner scripts
 #Requires -Version 5.1
 

@@ -1,3 +1,5 @@
+# Copyright (c) 2026 D. Schell <schelld@live.com>
+# https://github.com/schelld/GLIC-ps
 #Requires -Version 5.1
 . "$PSScriptRoot\GLic-Runtime.ps1"
 
