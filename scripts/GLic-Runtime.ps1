@@ -1,6 +1,13 @@
 # GLic-Runtime.ps1 — dot-source this file in runner scripts
 #Requires -Version 5.1
 
+# Config files (glic.json, service-account.json, skus.json) are read from and written to
+# the same folder as this script. To store them in a shared location instead, set
+# $env:GLIC_CONFIG before dot-sourcing, for example in a wrapper or scheduled-task script:
+#
+#   $env:GLIC_CONFIG = 'C:\ProgramData\GLic'
+#   . 'C:\Scripts\GLic\GLic-Runtime.ps1'
+
 # Session-scope state
 $script:GlicModuleRoot   = $PSScriptRoot
 $script:GlicSession      = $null
@@ -26,15 +33,8 @@ function Start-GlicLog {
 
 function Resolve-GlicConfigPath {
     param([string]$FileName)
-    if ($env:GLIC_CONFIG) {
-        $p = Join-Path $env:GLIC_CONFIG $FileName
-        if (Test-Path $p) { return $p }
-    }
-    $p = Join-Path (Join-Path $env:ProgramData 'GLic') $FileName
-    if (Test-Path $p) { return $p }
-    $p = Join-Path (Join-Path $env:APPDATA 'GLic') $FileName
-    if (Test-Path $p) { return $p }
-    $p = Join-Path $script:GlicModuleRoot $FileName
+    $root = if ($env:GLIC_CONFIG) { $env:GLIC_CONFIG } else { $script:GlicModuleRoot }
+    $p = Join-Path $root $FileName
     if (Test-Path $p) { return $p }
     return $null
 }
@@ -635,8 +635,8 @@ function Invoke-GlicDiscover {
             active      = $found.ContainsKey($_.SkuId)
         }
     }
-    $configDir = Join-Path $env:APPDATA 'GLic'
-    $null = New-Item -ItemType Directory -Path $configDir -Force
+    $configDir = if ($env:GLIC_CONFIG) { $env:GLIC_CONFIG } else { $script:GlicModuleRoot }
+    $null = New-Item -ItemType Directory -Path $configDir -Force -ErrorAction SilentlyContinue
     $merged | ConvertTo-Json | Set-Content (Join-Path $configDir 'skus.json') -Encoding UTF8
     Write-Verbose "skus.json written to $configDir"
 }
