@@ -34,6 +34,7 @@ GLic-PS exports Google Workspace license assignments, Chromebook inventory, hard
   - [Pointing Your ITAM Tool at the Output](#pointing-your-itam-tool-at-the-output)
 - [Runner Scripts](#runner-scripts)
 - [Cmdlet Reference](#cmdlet-reference)
+- [Output Field Reference](#output-field-reference)
 - [Repository Structure](#repository-structure)
 - [License](#license)
 
@@ -457,6 +458,197 @@ $sa    = Get-GlicServiceAccount
 $cfg   = Get-GlicConfig
 $token = Get-GlicAccessToken -AdminEmail $cfg.AdminEmail -ServiceAccount $sa
 ```
+
+---
+
+## Output Field Reference
+
+CSV column names and types for each runner's output file.
+
+### `devices.csv` — `Export-Devices.ps1`
+
+| Field | Type | Description |
+|---|---|---|
+| `ReportDate` | string | Date the report was generated (`yyyy-MM-dd`) |
+| `CustomerId` | string | Google Workspace customer ID |
+| `DeviceId` | string | Unique Chrome OS device ID |
+| `SerialNumber` | string | Hardware serial number |
+| `Model` | string | Device model name |
+| `Status` | string | Enrollment status (`ACTIVE`, `DEPROVISIONED`, etc.) |
+| `OrgUnitPath` | string | Org unit the device is assigned to |
+| `AnnotatedUser` | string | User annotation set in Admin Console |
+| `LastSyncUser` | string | Email of the most recent user to sync |
+| `AnnotatedLocation` | string | Location annotation set in Admin Console |
+| `LastSync` | datetime | Last policy sync timestamp |
+| `EnrollmentTime` | datetime | When the device was enrolled |
+| `OsVersion` | string | Chrome OS version string |
+| `MacAddress` | string | Wi-Fi MAC address |
+| `EthernetMacAddress` | string | Ethernet MAC address |
+| `LastKnownIp` | string | Last known IP address |
+| `AnnotatedAssetId` | string | Asset ID annotation set in Admin Console |
+| `OrderNumber` | string | Purchase order number(s), comma-separated |
+| `PlatformVersion` | string | Chrome platform version |
+| `FirmwareVersion` | string | Firmware version |
+| `BootMode` | string | Boot mode (`Verified`, `Dev`) |
+| `Notes` | string | Admin notes |
+| `Meid` | string | Mobile Equipment ID (cellular models) |
+
+---
+
+### `hardware.csv` — `Export-Hardware.ps1`
+
+| Field | Type | Description |
+|---|---|---|
+| `ReportDate` | string | Date the report was generated |
+| `CustomerId` | string | Google Workspace customer ID |
+| `DeviceId` | string | Unique Chrome OS device ID |
+| `SerialNumber` | string | Hardware serial number |
+| `Model` | string | Device model name |
+| `Status` | string | Enrollment status |
+| `OrgUnitPath` | string | Org unit the device is assigned to |
+| `AnnotatedAssetId` | string | Asset ID annotation |
+| `AnnotatedUser` | string | User annotation |
+| `OsVersion` | string | Chrome OS version |
+| `LastSync` | datetime | Last policy sync timestamp |
+| `EnrollmentTime` | datetime | Enrollment timestamp |
+| `CpuModel` | string | CPU model name |
+| `CpuArchitecture` | string | CPU architecture (e.g. `x86_64`, `ARM`) |
+| `RamGb` | int | Total RAM in GB |
+| `StorageAvailableGb` | int | Available disk space in GB |
+| `StorageTotalGb` | int | Total disk capacity in GB |
+| `BatteryDesignMah` | int | Battery design capacity in mAh |
+| `BatteryFullChargeMah` | int | Battery full-charge capacity in mAh |
+| `GpuName` | string | GPU adapter name |
+
+---
+
+### `telemetry.csv` — `Export-Telemetry.ps1`
+
+| Field | Type | Description |
+|---|---|---|
+| `ReportDate` | string | Date the report was generated |
+| `CustomerId` | string | Google Workspace customer ID |
+| `DeviceId` | string | Unique Chrome OS device ID |
+| `SerialNumber` | string | Hardware serial number |
+| `Model` | string | Device model name |
+| `Status` | string | Enrollment status |
+| `OrgUnitPath` | string | Org unit the device is assigned to |
+| `OsVersion` | string | Current Chrome OS version |
+| `LastSyncUser` | string | Email of the most recent sync user |
+| `UpdateState` | string | OS update state (e.g. `OS_UP_TO_DATE`, `PENDING_UPDATE`) |
+| `UpdateTargetOsVersion` | string | Version the device is updating to, if applicable |
+| `LastUpdateCheckTime` | datetime | When the device last checked for an update |
+
+---
+
+### `users.csv` — `Export-Users.ps1`
+
+| Field | Type | Description |
+|---|---|---|
+| `ReportDate` | string | Date the report was generated |
+| `CustomerId` | string | Google Workspace customer ID |
+| `PrimaryEmail` | string | User's primary email address |
+| `FullName` | string | Display name |
+| `GivenName` | string | First name |
+| `FamilyName` | string | Last name |
+| `CreationTime` | datetime | Account creation timestamp |
+| `LastLoginTime` | datetime | Most recent login timestamp |
+| `IsEnrolledIn2Sv` | bool | Whether the user has enrolled in 2-Step Verification |
+| `IsEnforcedIn2Sv` | bool | Whether 2SV is enforced for the user |
+| `RecoveryEmail` | string | Recovery email address |
+| `RecoveryPhone` | string | Recovery phone number |
+| `OrgUnit` | string | Org unit path |
+| `IsAdmin` | bool | Super admin flag |
+| `IsDelegatedAdmin` | bool | Delegated admin flag |
+| `Suspended` | bool | Whether the account is suspended |
+| `Archived` | bool | Whether the account is archived |
+| `Department` | string | Department from the primary organization record |
+| `JobTitle` | string | Job title |
+| `CostCenter` | string | Cost center |
+| `EmployeeId` | string | Employee ID |
+| `ManagerEmail` | string | Manager's email address |
+| `Aliases` | string | Semicolon-separated list of email aliases |
+
+---
+
+### `licenses.csv` — `Export-Licenses.ps1`
+
+| Field | Type | Description |
+|---|---|---|
+| `ReportDate` | string | Date the report was generated |
+| `CustomerId` | string | Google Workspace customer ID |
+| `UserEmail` | string | Assigned user's email address |
+| `FullName` | string | User's display name |
+| `GivenName` | string | First name |
+| `FamilyName` | string | Last name |
+| `OrgUnit` | string | Org unit path |
+| `IsAdmin` | bool | Super admin flag |
+| `Suspended` | bool | Whether the account is suspended |
+| `LastLoginTime` | datetime | Most recent login timestamp |
+| `ProductId` | string | Google product ID (e.g. `Google-Apps`) |
+| `ProductName` | string | Product display name (e.g. `Google Workspace Education`) |
+| `SkuId` | string | SKU identifier |
+| `SkuName` | string | SKU display name (e.g. `Education Plus`) |
+| `AssignmentStatus` | string | Always `ACTIVE` (only assigned licenses are returned) |
+
+---
+
+### `apps.csv` — `Export-Apps.ps1`
+
+| Field | Type | Description |
+|---|---|---|
+| `ReportDate` | string | Date the report was generated |
+| `CustomerId` | string | Google Workspace customer ID |
+| `DisplayName` | string | App display name |
+| `AppId` | string | App identifier (extension ID, package name, etc.) |
+| `AppType` | string | App type (`CHROME_APP`, `ANDROID`, `WEB_APP`, etc.) |
+| `Publisher` | string | Publisher name (not populated by the API; reserved for future use) |
+| `BrowserDeviceCount` | long | Number of managed devices with this app installed |
+
+---
+
+### `device_apps.csv` — `Export-DeviceApps.ps1`
+
+| Field | Type | Description |
+|---|---|---|
+| `ReportDate` | string | Date the report was generated |
+| `CustomerId` | string | Google Workspace customer ID |
+| `AppId` | string | App identifier |
+| `DisplayName` | string | App display name |
+| `AppType` | string | App type (`CHROME_APP`, `ANDROID`, `WEB_APP`, `EXTENSION`, etc.) |
+| `BrowserDeviceCount` | long | Managed browser device install count |
+| `OsUserCount` | long | Chrome OS user install count |
+
+---
+
+### `browser_extensions.csv` — `Export-BrowserExtensions.ps1`
+
+| Field | Type | Description |
+|---|---|---|
+| `ReportDate` | string | Date the report was generated |
+| `CustomerId` | string | Google Workspace customer ID |
+| `AppId` | string | Extension or theme ID |
+| `DisplayName` | string | Extension display name |
+| `AppType` | string | `EXTENSION` or `THEME` |
+| `BrowserDeviceCount` | long | Managed browser device install count |
+| `OsUserCount` | long | Chrome OS user install count |
+
+---
+
+### `managed_browsers.csv` — `Export-ManagedBrowsers.ps1`
+
+| Field | Type | Description |
+|---|---|---|
+| `ReportDate` | string | Date the report was generated |
+| `CustomerId` | string | Google Workspace customer ID |
+| `ProfileId` | string | Managed browser profile ID |
+| `DisplayName` | string | Profile display name |
+| `AffiliatedUser` | string | Email of the affiliated user |
+| `OrgUnitPath` | string | Org unit path |
+| `BrowserVersion` | string | Chrome browser version |
+| `Os` | string | Host operating system |
+| `OsVersion` | string | Host OS version |
+| `LastActivityTime` | datetime | Timestamp of last profile activity |
 
 ---
 
