@@ -123,7 +123,14 @@ function Get-GlicAccessToken {
             -ErrorAction Stop
     } catch {
         $code = $_.Exception.Response.StatusCode.value__
-        throw "Token exchange failed (HTTP $code). Verify DWD is configured for this service account and admin_email is a super admin. Inner: $_"
+        $errBody = ''
+        try {
+            $stream = $_.Exception.Response.GetResponseStream()
+            $reader = New-Object System.IO.StreamReader $stream
+            $errBody = $reader.ReadToEnd()
+            $reader.Close()
+        } catch {}
+        throw "Token exchange failed (HTTP $code): $errBody"
     }
 
     $script:_glicToken       = $response.access_token
