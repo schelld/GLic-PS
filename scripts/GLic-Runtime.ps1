@@ -114,12 +114,17 @@ function Get-GlicAccessToken {
 
     $jwt = "${signingInput}.${sigB64}"
 
-    $body     = "grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer&assertion=$jwt"
-    $response = Invoke-RestMethod -Method Post `
-        -Uri 'https://oauth2.googleapis.com/token' `
-        -ContentType 'application/x-www-form-urlencoded' `
-        -Body $body `
-        -ErrorAction Stop
+    $body = "grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer&assertion=$jwt"
+    try {
+        $response = Invoke-RestMethod -Method Post `
+            -Uri 'https://oauth2.googleapis.com/token' `
+            -ContentType 'application/x-www-form-urlencoded' `
+            -Body $body `
+            -ErrorAction Stop
+    } catch {
+        $code = $_.Exception.Response.StatusCode.value__
+        throw "Token exchange failed (HTTP $code). Verify DWD is configured for this service account and admin_email is a super admin. Inner: $_"
+    }
 
     $script:_glicToken       = $response.access_token
     $script:_glicTokenExpiry = (Get-Date).AddSeconds($response.expires_in - 120)
