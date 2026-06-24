@@ -1,4 +1,4 @@
-﻿#Requires -Version 5.1
+#Requires -Version 5.1
 . "$PSScriptRoot\GLic-Runtime.ps1"
 
 $ReportFile = "$PSScriptRoot\reports\devices.csv"
